@@ -5,6 +5,7 @@ FROM ubuntu:latest
 
 
 RUN apt-get -qq update && apt-get -qq -y install curl wget bzip2 openjdk-8-jdk-headless \
+    gcc g++ \
     && curl -sSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh \
     && bash /tmp/miniconda.sh -bfp /usr/local \
     && rm -rf /tmp/miniconda.sh \
@@ -34,5 +35,5 @@ RUN groupadd -g $GROUPID $USERNAME
 RUN useradd -u $USERID -g $GROUPID $USERNAME
 RUN mkdir /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME
 USER $USERNAME
-RUN conda create -n pyclj python=3.6 && conda install -n pyclj numpy mxnet\
+RUN conda create -n pyclj python=3.6 && conda install -n pyclj numpy mxnet opencv cython\
     && echo "source activate pyclj" > /home/$USERNAME/.bashrc
