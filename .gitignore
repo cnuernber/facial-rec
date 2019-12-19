@@ -12,3 +12,4 @@ pom.xml.asc
 .hg/
 models
 __pycache__
+*.jpg

@@ -3,5 +3,5 @@
 set -e
 
 pushd dockerfiles
-docker build -t docker-conda -f CondaDockerfile --build-arg USERID=$(id -u) --build-arg GROUPID=$(id -u) --build-arg USERNAME=$USER .
+docker build -t facerec-conda -f CondaDockerfile --build-arg USERID=$(id -u) --build-arg GROUPID=$(id -u) --build-arg USERNAME=$USER .
 popd
