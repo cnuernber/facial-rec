@@ -2,9 +2,12 @@
 
 Demonstration of some pretty good facial rec tech.
 
+![detection phase](detector_test.jpg)
+
 
 ## Usage
 
+Too many steps at the moment.
 
 
 ## License
