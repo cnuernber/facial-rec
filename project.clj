@@ -5,5 +5,4 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [cnuernber/libpython-clj "1.27"]
-                 [org.slf4j/slf4j-simple "1.7.22"]]
-  :repl-options {:init-ns facial-rec.core})
+                 [org.slf4j/slf4j-simple "1.7.22"]])
