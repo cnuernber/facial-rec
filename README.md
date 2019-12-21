@@ -27,6 +27,7 @@ scripts/run-conda-docker
 
 ```clojure
 (require '[facial-rec.demo :as demo])
+;;long pause as things compile
 (demo/find-annotate-faces!)
 ```
 
