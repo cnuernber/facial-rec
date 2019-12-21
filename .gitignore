@@ -11,5 +11,6 @@ pom.xml.asc
 .hgignore
 .hg/
 models
+dataset
 __pycache__
 *.jpg

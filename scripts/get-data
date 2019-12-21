@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+wget https://s3.us-east-2.amazonaws.com/tech.public.data/facerec-models.zip
+wget https://s3.us-east-2.amazonaws.com/tech.public.data/facerec-test-ds.zip
+unzip facerec-models.zip && rm facerec-models.zip
+unzip facerec-test-ds.zip && rm facerec-test-ds.zip
