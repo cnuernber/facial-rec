@@ -21,6 +21,15 @@ scripts/get-data
 scripts/run-conda-docker
 ```
 
+The port is printed out in a line like:
+
+```console
+nREPL server started on port 44507 on host localhost - nrepl://localhost:44507
+```
+
+Now in emacs, vim or somewhere connect to the
+exposed port on locahost.
+
 
 ### Find/Annotate Faces
 
