@@ -7,7 +7,37 @@ Demonstration of some pretty good facial rec tech.
 
 ## Usage
 
-Too many steps at the moment.
+### Get the data
+
+```console 
+scripts/get-data
+```
+
+
+### Start up a REPL
+
+
+```console
+scripts/run-conda-docker
+```
+
+
+### Find/Annotate Faces
+
+
+```clojure
+(require '[facial-rec.demo :as demo])
+(demo/find-annotate-faces!)
+```
+
+Now there are cutout faces in the faces subdir.
+You can do nearest searches in the demo namespace and
+see how well this network does.
+
+
+I didn't do alignment of the faces, and it is unclear if the
+feature network requires BGR or RGB images.  All told, I think
+the results are middling.
 
 
 ## License

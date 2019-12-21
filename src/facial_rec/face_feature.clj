@@ -32,7 +32,8 @@
   [img-path]
   (py/with-gil-stack-rc-context
     (if-let [new-img (cv2/imread img-path)]
-      (let [new-img (np/transpose new-img [2 0 1])
+      (let [new-img (cv2/cvtColor new-img cv2/COLOR_BGR2RGB)
+            new-img (np/transpose new-img [2 0 1])
             input-blob (np/expand_dims new-img :axis 0)
             data (mxnet.ndarray/array input-blob)
             batch (mxnet.io/DataBatch :data [data])]
@@ -42,4 +43,4 @@
             (py/$a asnumpy)
             (py/as-tensor)
             (#(dtype/make-container :java-array :float32 %))))
-      (throw (Exception. "Failed to load img: %s" img-path)))))
+      (throw (Exception. (format "Failed to load img: %s" img-path))))))

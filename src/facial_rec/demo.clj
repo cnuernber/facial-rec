@@ -1,0 +1,63 @@
+(ns face-rec.demo
+  (:require [facial-rec.detect :as detect]
+            [facial-rec.face-feature :as face-feature]
+            [libpython-clj.require :refer [require-python]]
+            [libpython-clj.python :as py]
+            [tech.io :as io]
+            [tech.v2.datatype.functional :as dfn])
+  (:import [java.io File]
+           [java.util UUID]))
+
+
+(def dataset-files )
+
+
+(io/make-parents "faces/face.jpg")
+(require-python 'cv2)
+
+
+(defn find-annotate-faces!
+  []
+  (py/with-gil-stack-rc-context
+    (->> (file-seq (io/file "dataset"))
+         (remove #(.isDirectory ^File %))
+         (mapcat (fn [^File src-img]
+                   (let [fname (.toString src-img)]
+                     (->> (detect/detect-faces fname)
+                          (detect/crop-faces (cv2/imread fname))
+                          (map (fn [face-img]
+                                 (let [face-id (UUID/randomUUID)
+                                       dest-fname (format "faces/%s.jpg" face-id)
+                                       dest-feature-fname (format "file://faces/%s.nippy" face-id)
+                                       _ (cv2/imwrite dest-fname face-img)
+                                       feature (face-feature/face->feature dest-fname)]
+                                   (io/put-nippy! dest-feature-fname {:id face-id
+                                                                      :src-file fname
+                                                                      :feature feature}))))))))
+         (dorun)))
+  :ok)
+
+
+(def annotations
+  (memoize
+   (fn []
+     (->> (file-seq (io/file "faces"))
+          (map #(.toString ^File %))
+          (filter #(.endsWith ^String % "nippy"))
+          (map io/get-nippy)
+          (map (juxt :id identity))
+          (into {})))))
+
+
+(def annotations-by-file
+  (memoize
+   #(group-by :src-file (vals (annotations)))))
+
+
+(defn nearest
+  [ann-id]
+  (let [{:keys [feature] :as target-annotation} (get (annotations) ann-id)]
+    (->> (vals (annotations))
+         (map #(assoc % :distance-squared (dfn/distance-squared feature (:feature %))))
+         (sort-by :distance-squared)
+         (map #(dissoc % :feature)))))
