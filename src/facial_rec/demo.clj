@@ -16,26 +16,34 @@
 (require-python 'cv2)
 
 
+(defn filename->faces
+  [fname]
+  (py/with-gil-stack-rc-context
+    (let [detection (detect/detect-faces fname)
+          cropped-faces (detect/crop-faces (cv2/imread fname) detection)]
+      (mapv (fn [detection-result face-img]
+              (let [face-id (UUID/randomUUID)
+                    dest-fname (format "faces/%s.jpg" face-id)
+                    dest-feature-fname (format "file://faces/%s.nippy" face-id)
+                    _ (cv2/imwrite dest-fname face-img)
+                    feature (face-feature/face->feature dest-fname)
+                    metadata (merge detection-result
+                                    {:id face-id
+                                     :src-file fname
+                                     :feature feature})]
+                (io/put-nippy! dest-feature-fname metadata)
+                metadata))
+            detection cropped-faces))))
+
+
 (defn find-annotate-faces!
   []
   (py/with-gil-stack-rc-context
     (->> (file-seq (io/file "dataset"))
          (remove #(.isDirectory ^File %))
          (mapcat (fn [^File src-img]
-                   (let [fname (.toString src-img)]
-                     (->> (detect/detect-faces fname)
-                          (detect/crop-faces (cv2/imread fname))
-                          (map (fn [face-img]
-                                 (let [face-id (UUID/randomUUID)
-                                       dest-fname (format "faces/%s.jpg" face-id)
-                                       dest-feature-fname (format "file://faces/%s.nippy" face-id)
-                                       _ (cv2/imwrite dest-fname face-img)
-                                       feature (face-feature/face->feature dest-fname)]
-                                   (io/put-nippy! dest-feature-fname {:id face-id
-                                                                      :src-file fname
-                                                                      :feature feature}))))))))
-         (dorun)))
-  :ok)
+                   (filename->faces (.toString src-img))))
+         vec)))
 
 
 (def annotations
@@ -44,8 +52,7 @@
      (->> (file-seq (io/file "faces"))
           (map #(.toString ^File %))
           (filter #(.endsWith ^String % "nippy"))
-          (map io/get-nippy)
-          (map (juxt :id identity))
+          (map (comp (juxt :id identity) io/get-nippy))
           (into {})))))
 
 
