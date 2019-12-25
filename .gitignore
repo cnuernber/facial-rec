@@ -14,3 +14,5 @@ models
 dataset
 __pycache__
 *.jpg
+faces
+results.md

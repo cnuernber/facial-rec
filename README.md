@@ -12,7 +12,7 @@ At a high level, facial recognition consists of two steps: detection and embeddi
 Detection takes a large image and produces a list of faces in the image.  This piece is
 generally uses fully-convolutional approaches which means they take an input image
 and output an output 'image' where each pixel consists of generally a bounding box,
-and confidence measure, and a set of landmarks.  A second step does 
+and confidence measure, and a set of landmarks.  A second step does
 non-maximal-suppression of the data which is a fancy way of saying it looks at
 overlaps and takes the highest confidence one.
 
@@ -48,7 +48,7 @@ it rests on four components:
 
 The most advanced piece of the demo is actually the facial detection component.
 Luckily, it was nicely wrapped.  To get it working we needed cython working and
-there is some [good information](src/facial_rec/detect.clj) there if you want to 
+there is some [good information](src/facial_rec/detect.clj) there if you want to
 use a system that is based partially on cython.
 
 
@@ -56,7 +56,7 @@ use a system that is based partially on cython.
 
 This script mainly downloads the models used for detection and feature embedding.
 
-```console 
+```console
 scripts/get-data
 ```
 
@@ -84,6 +84,34 @@ exposed port on locahost.
 ```clojure
 (require '[facial-rec.demo :as demo])
 ;;long pause as things compile
+```
+
+At this point, we have to say that the system is dynamically compiling cython and
+upgrading the networks to the newest version of mxnet.  This is a noisy process
+for a few reasons; we are loading a newer numpy, compiling files and loading networks.
+You will see warnings in the repl and your stdout of your docker will display
+some errors regarding compiling gpu non maximal suppression (nms) algorithms:
+```console
+In file included from /home/chrisn/.conda/envs/pyclj/lib/python3.6/site-packages/numpy/core/include/numpy/ndarraytypes.h:1832:0,
+                 from /home/chrisn/.conda/envs/pyclj/lib/python3.6/site-packages/numpy/core/include/numpy/ndarrayobject.h:12,
+				                  from /home/chrisn/.conda/envs/pyclj/lib/python3.6/site-packages/numpy/core/include/numpy/arrayobject.h:4,
+								                   from /home/chrisn/.pyxbld/temp.linux-x86_64-3.6/pyrex/rcnn/cython/gpu_nms.c:598:
+												   /home/chrisn/.conda/envs/pyclj/lib/python3.6/site-packages/numpy/core/include/numpy/npy_1_7_deprecated_api.h:17:2: warning: #warning "Using deprecated NumPy API, disable it with " "#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION" [-Wcpp]
+												    #warning "Using deprecated NumPy API, disable it with " \
+													  ^~~~~~~
+													  /home/chrisn/.pyxbld/temp.linux-x86_64-3.6/pyrex/rcnn/cython/gpu_nms.c:600:10: fatal error: gpu_nms.hpp: No such file or directory
+													   #include "gpu_nms.hpp"
+													             ^~~~~~~~~~~~~
+```
+
+Interestingly enough, the system still works fine.  The nms errors are around building
+the gpu version of the nms algorithms and we aren't using the gpu for this demo.
+
+
+Moving On!!
+
+
+```clojure
 (demo/find-annotate-faces!)
 ;;list of faces printed to the repl.
 ```

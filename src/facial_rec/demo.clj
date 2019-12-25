@@ -66,3 +66,33 @@
          (map #(assoc % :distance-squared (dfn/distance-squared feature (:feature %))))
          (sort-by :distance-squared)
          (map #(dissoc % :feature)))))
+
+(defn- display-face-img
+  [{:keys [id] :as entry}]
+  (format "![face-img](faces/%s.jpg) " id))
+
+(defn- display-distance-and-face-img
+  [{:keys [id distance-squared] :as entry}]
+  (format "%02d %s"
+          (long (Math/sqrt (double distance-squared)))
+          (display-face-img entry)))
+
+
+(defn output-face-results
+  []
+  (let [all-faces (or (vals (annotations))
+                      (find-annotate-faces!))]
+    (spit "results.md"
+          (with-out-str
+            (println "## Results")
+            (println "| face-img | 5 nearest |")
+            (println "|-----|------|")
+            (->> all-faces
+                 (map (fn [{:keys [id] :as entry}]
+                        (println "|" (display-face-img entry)
+                                 "|" (->> (nearest id)
+                                          (take 5)
+                                          (map display-distance-and-face-img)
+                                          (reduce str))
+                                 "|")))
+                 (dorun))))))
