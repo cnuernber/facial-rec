@@ -44,14 +44,13 @@
          vec)))
 
 
-(def annotations
-  (memoize
-   (fn []
-     (->> (file-seq (io/file "faces"))
-          (map #(.toString ^File %))
-          (filter #(.endsWith ^String % "nippy"))
-          (map (comp (juxt :id identity) io/get-nippy))
-          (into {})))))
+(defn annotations
+  []
+  (->> (file-seq (io/file "faces"))
+       (map #(.toString ^File %))
+       (filter #(.endsWith ^String % "nippy"))
+       (map (comp (juxt :id identity) io/get-nippy))
+       (into {})))
 
 
 (def annotations-by-file
@@ -78,10 +77,9 @@
           (display-face-img entry)))
 
 
-(defn output-face-results
+(defn output-face-results!
   []
-  (let [all-faces (or (vals (annotations))
-                      (find-annotate-faces!))]
+  (let [all-faces (vals (annotations))]
     (spit "results.md"
           (with-out-str
             (println "## Results")
