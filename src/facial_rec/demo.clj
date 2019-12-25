@@ -9,8 +9,6 @@
            [java.util UUID]))
 
 
-(def dataset-files )
-
 
 (io/make-parents "faces/face.jpg")
 (require-python 'cv2)

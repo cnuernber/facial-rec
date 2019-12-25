@@ -41,6 +41,5 @@
         (-> (py/$a model get_outputs)
             first
             (py/$a asnumpy)
-            (py/as-tensor)
             (#(dtype/make-container :java-array :float32 %))))
       (throw (Exception. (format "Failed to load img: %s" img-path))))))

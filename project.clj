@@ -5,5 +5,5 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [techascent/tech.io "3.9"]
-                 [cnuernber/libpython-clj "1.27"]
+                 [cnuernber/libpython-clj "1.30-SNAPSHOT"]
                  [org.slf4j/slf4j-simple "1.7.22"]])
