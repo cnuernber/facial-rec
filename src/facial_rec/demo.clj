@@ -4,6 +4,7 @@
             [libpython-clj.require :refer [require-python]]
             [libpython-clj.python :as py]
             [tech.io :as io]
+            [me.raynes.fs :as fs]
             [tech.v2.datatype.functional :as dfn])
   (:import [java.io File]
            [java.util UUID]))
@@ -34,8 +35,18 @@
             detection cropped-faces))))
 
 
+(defn delete-previously-found-faces!
+  []
+  (->> (file-seq (io/file "faces"))
+       (remove #(.isDirectory ^File %))
+       (map (fn [f]
+              (.delete f)))
+       (dorun)))
+
+
 (defn find-annotate-faces!
   []
+  (delete-previously-found-faces!)
   (py/with-gil-stack-rc-context
     (->> (file-seq (io/file "dataset"))
          (remove #(.isDirectory ^File %))
@@ -53,9 +64,9 @@
        (into {})))
 
 
-(def annotations-by-file
-  (memoize
-   #(group-by :src-file (vals (annotations)))))
+(defn annotations-by-file
+  []
+  (group-by :src-file (vals (annotations))))
 
 
 (defn nearest
@@ -66,9 +77,11 @@
          (sort-by :distance-squared)
          (map #(dissoc % :feature)))))
 
+
 (defn- display-face-img
   [{:keys [id] :as entry}]
   (format "![face-img](faces/%s.jpg) " id))
+
 
 (defn- display-distance-and-face-img
   [{:keys [id distance-squared] :as entry}]
@@ -78,8 +91,8 @@
 
 
 (defn output-face-results!
-  []
-  (let [all-faces (vals (annotations))]
+  [& [all-faces]]
+  (let [all-faces (or all-faces (find-annotate-faces!))]
     (spit "results.md"
           (with-out-str
             (println "## Results")

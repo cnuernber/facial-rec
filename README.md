@@ -5,6 +5,9 @@ Demonstration of some pretty good facial rec tech.
 ![detection phase](detector_test.jpg)
 
 
+TL/DR - jump to [results](doc/results.md)
+
+
 ## How It Works
 
 At a high level, facial recognition consists of two steps: detection and embedding.
@@ -112,13 +115,27 @@ Moving On!!
 
 
 ```clojure
-(demo/find-annotate-faces!)
-;;list of faces printed to the repl.
+(def faces (find-annotate-faces!))
+;;...pause...
+#'faces
 ```
 
 Now there are cutout faces in the faces subdir.
 You can do nearest searches in the demo namespace and
 see how well this network does.
+
+
+```clojure
+(output-face-results! faces)
+```
+
+This takes each face, find the 5 nearest, and outputs the results to a markdown
+file.  We use `grip` to view the markdown files locally.
+
+
+Going further, any non-directory files in the dataset directory will be scanned and
+added to the dataset so feel free to try it with your friends and family and see
+how good the results are.
 
 
 ## License
