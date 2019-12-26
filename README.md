@@ -5,7 +5,7 @@ Demonstration of some pretty good facial rec tech.
 ![detection phase](detector_test.jpg)
 
 
-TL/DR - jump to [results](doc/results.md)
+TL/DR - jump to [results](docs/results.md)
 
 
 ## How It Works
