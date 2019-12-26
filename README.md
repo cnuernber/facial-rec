@@ -32,7 +32,7 @@ distance between them to be less than the distance between say, an image of Tom 
 and an image of Denzel Washington.
 
 
-This is one of the most interesting aspects to me is that I can use a deep learning
+One of the most interesting aspects to me is that I can use a deep learning
 system to construct a [topological space](https://en.wikipedia.org/wiki/Topological_space)
 where distance corresponds to something very abstract like how similar these two 
 people appear are or how how similar these two outfits are.  In this sense the
