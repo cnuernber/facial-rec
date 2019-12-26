@@ -32,6 +32,13 @@ distance between them to be less than the distance between say, an image of Tom 
 and an image of Denzel Washington.
 
 
+This is one of the most interesting aspects to me is that I can use a deep learning
+system to construct a [topological space](https://en.wikipedia.org/wiki/Topological_space)
+where distance corresponds to something very abstract like how similar these two 
+people appear are or how how similar these two outfits are.  In this sense the
+target of our learning algorithm is a good embedding in our new space.
+
+
 That is it.  That is how facial rec works at the base level.  Training these two
 components is an area of research in and of itself and is way out of scope of an
 example of using the systems.  But, if you ever wondered roughly how facial rec
