@@ -12,26 +12,26 @@ TL/DR - jump to [results](docs/results.md)
 
 ## How It Works
 
-At a high level, facial recognition consists of two steps: detection and embedding.
+At a high level, facial recognition consists of two steps: *detection* and *embedding*.
 
-Detection takes a large image and produces a list of faces in the image.  This piece is
-generally uses fully-convolutional approaches which means they take an input image
-and output an output 'image' where each pixel consists of generally a bounding box,
-and confidence measure, and a set of landmarks.  A second step does
-non-maximal-suppression of the data which is a fancy way of saying it looks at
-overlaps and takes the highest confidence one.
+* *detection* takes a large image and produces a list of faces in the image.  This piece is
+  generally uses fully-convolutional approaches which means they take an input image
+  and output an output 'image' where each pixel consists of generally a bounding box,
+  and confidence measure, and a set of landmarks.  A second step does
+  non-maximal-suppression of the data which is a fancy way of saying it looks at
+  overlaps and takes the highest confidence one.
+  From here we get a list of faces and landmarks.  We crop the faces out of the
+  source image and align them using the landmarks to a set of 'standard' landmarks
+  used during training.
 
-From here we get a list of faces and landmarks.  We crop the faces out of the
-source image and align them using the landmarks to a set of 'standard' landmarks
-used during training.
 
+* *embedding* - The next step is to produce an embedding which is an N-dimensional
+  vector.  In our case that vector has 512 elements.  These vectors have a special
+  property that faces that look more similar will be closer in Euclidean space.  So
+  for example if I have two images of Tom Hanks and I create two embeddings I would
+  expect the distance between them to be less than the distance between say, an image
+  of Tom Hanks and an image of Denzel Washington.
 
-The next step is to produce an embedding which is an N-dimensional vector.  In our
-case that vector has 512 elements.  These vectors have a special property that
-faces that look more similar will be closer in Euclidean space.  So for example
-if I have two images of Tom Hanks and I create two embeddings I would expect the
-distance between them to be less than the distance between say, an image of Tom Hanks
-and an image of Denzel Washington.
 
 
 One of the most interesting aspects to me is that I can use a deep learning
