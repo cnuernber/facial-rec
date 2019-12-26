@@ -7,7 +7,7 @@ Demonstration of some pretty good facial rec tech using a
 [bunch of stars](dataset). 
 
 
-TL/DR - jump to [results](doc/results.md)
+TL/DR - jump to [results](docs/results.md)
 
 
 ## How It Works
