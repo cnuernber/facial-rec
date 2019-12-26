@@ -1,8 +1,10 @@
 # facial-rec
 
-Demonstration of some pretty good facial rec tech.
-
 ![detection phase](detector_test.jpg)
+
+Demonstration of some pretty good facial rec tech using a 
+[famous selfie](dataset/goup-pic.JPG) with a 
+[bunch of stars](dataset). 
 
 
 TL/DR - jump to [results](doc/results.md)
