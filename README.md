@@ -41,9 +41,18 @@ people appear are or how how similar these two outfits are.  In this sense the
 target of our learning algorithm is a good embedding in our new space.
 
 
-That is it.  That is how facial rec works at the base level.  Training these two
-components is an area of research in and of itself and is way out of scope of an
-example of using the systems.  
+That is it.  That is how facial rec works at the base level.  If you are more
+curious as to how this works from scratch please review the 
+[RetinaFace detector](https://arxiv.org/abs/1905.00641) and 
+the a network trained with the [ArcFace loss function](https://arxiv.org/abs/1801.07698).
+
+
+If you notice, the ArcFace paper is specifically about only a loss function so given
+no more information let me tell you that the loss function is the device that you
+use to tell a deep learning system exactly what to target during its training.  The
+loss function, however, isn't specific to the network it is used for training so one
+could use this loss function to train other types of similarity measures potentially
+with networks that aren't specific to image recognition.
 
 
 If anyone asks you how facial rec works you can say:
