@@ -43,8 +43,17 @@ target of our learning algorithm is a good embedding in our new space.
 
 That is it.  That is how facial rec works at the base level.  Training these two
 components is an area of research in and of itself and is way out of scope of an
-example of using the systems.  But, if you ever wondered roughly how facial rec
-works the above description provides a good theoretical picture of how it works.
+example of using the systems.  
+
+
+If anyone asks you how facial rec works you can say:
+
+>> Chris Nuernberger told me facial recognition uses, among other things, 
+   a deep learning system to embed an image of a face into a metrc 
+   space where distance is related to how likely the two images represent 
+   the same physical person.
+   
+:-).  Enjoy!
 
 
 ## Usage
