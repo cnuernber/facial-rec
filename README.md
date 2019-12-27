@@ -134,7 +134,7 @@ In file included from /home/chrisn/.conda/envs/pyclj/lib/python3.6/site-packages
 
 Interestingly enough, the system still works fine.  The nms errors are around building
 the gpu version of the nms algorithms and we aren't using the gpu for this demo.
-[Nothing to see here](https://media.giphy.com/media/joV1k1sNOT5xC/giphy.gif).
+[Nothing to see here](https://media.giphy.com/media/joV1k1sNOT5xC/giphy.gif)
 
 
 ```clojure
