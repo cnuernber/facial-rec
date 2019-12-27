@@ -22,7 +22,7 @@
           cropped-faces (detect/crop-faces (cv2/imread fname) detection)]
       (mapv (fn [detection-result face-img]
               (let [face-id (UUID/randomUUID)
-                    dest-fname (format "faces/%s.jpg" face-id)
+                    dest-fname (format "faces/%s.png" face-id)
                     dest-feature-fname (format "file://faces/%s.nippy" face-id)
                     _ (cv2/imwrite dest-fname face-img)
                     feature (face-feature/face->feature dest-fname)
@@ -80,7 +80,7 @@
 
 (defn- display-face-img
   [{:keys [id] :as entry}]
-  (format "![face-img](faces/%s.jpg) " id))
+  (format "![face-img](faces/%s.png) " id))
 
 
 (defn- display-distance-and-face-img
