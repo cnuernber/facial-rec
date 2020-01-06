@@ -43,7 +43,7 @@ target of our learning algorithm is a good embedding in our new space.
 That is it.  That is how facial rec works at the base level.  If you are more
 curious as to how this works from scratch please review the 
 [RetinaFace detector](https://arxiv.org/abs/1905.00641) and 
-the a network trained with the [ArcFace loss function](https://arxiv.org/abs/1801.07698).
+the [ArcFace loss function](https://arxiv.org/abs/1801.07698).
 
 
 If you notice, the ArcFace paper is specifically about only a loss function so given
