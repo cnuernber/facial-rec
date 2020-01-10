@@ -81,6 +81,14 @@ there is some [good information](src/facial_rec/detect.clj) there if you want to
 use a system that is based partially on cython.
 
 
+### Install Docker
+
+
+Installing docker is system specific but on all systems you want to install it such
+that you can run it 
+[without sudo](https://docs.docker.com/install/linux/linux-postinstall/).
+
+
 ### Get the data
 
 This script mainly downloads the models used for detection and feature embedding.
@@ -151,8 +159,8 @@ demo namespace and see how well this network does.
 (output-face-results! faces)
 ```
 
-This takes each face, find the 5 nearest, and outputs the results to a markdown
-file.  We use `grip` to view the markdown files locally.
+This takes each face, find the 5 nearest, and outputs the results to `results.md`.
+We use [`grip`](https://github.com/joeyespo/grip) to view the markdown files locally.
 
 
 Going further, any non-directory files in the dataset directory will be scanned and
