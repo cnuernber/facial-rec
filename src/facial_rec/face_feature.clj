@@ -17,9 +17,9 @@
   (let [[sym arg-params aux-params] (mxnet.model/load_checkpoint model-path checkpoint)
         all-layers (py/$a sym get_internals)
         target-layer (py/get-item all-layers "fc1_output")
-        ;;TODO - I haven't overloaded enough of the IFn invoke methods for this to work without
-        ;;using call-kw
-        model (py/call-kw mxnet.module/Module [] {:symbol target-layer :context (mxnet/cpu) :label_names nil})]
+        model (mxnet.module/Module :symbol target-layer
+                                   :context (mxnet/cpu)
+                                   :label_names nil)]
     (py/$a model bind :data_shapes [["data" [1 3 112 112]]])
     (py/$a model set_params arg-params aux-params)
     model))

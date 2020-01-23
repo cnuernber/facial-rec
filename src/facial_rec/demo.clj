@@ -4,8 +4,8 @@
             [libpython-clj.require :refer [require-python]]
             [libpython-clj.python :as py]
             [tech.io :as io]
-            [me.raynes.fs :as fs]
-            [tech.v2.datatype.functional :as dfn])
+            [tech.v2.datatype.functional :as dfn]
+            [clojure.tools.logging :as log])
   (:import [java.io File]
            [java.util UUID]))
 
@@ -46,13 +46,16 @@
 
 (defn find-annotate-faces!
   []
+  (log/info "finding faces")
   (delete-previously-found-faces!)
   (py/with-gil-stack-rc-context
     (->> (file-seq (io/file "dataset"))
          (remove #(.isDirectory ^File %))
          (mapcat (fn [^File src-img]
                    (filename->faces (.toString src-img))))
-         vec)))
+         vec
+         (#(do (log/infof "Found %d faces" (count %))
+               %)))))
 
 
 (defn annotations
@@ -107,3 +110,11 @@
                                           (reduce str))
                                  "|")))
                  (dorun))))))
+
+
+(comment
+  ;;Stress testing the system
+  (dotimes [iter 100]
+    (println "running")
+    (find-annotate-faces!))
+  )
