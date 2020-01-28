@@ -1,6 +1,6 @@
 (ns facial-rec.detect
   (:require [libpython-clj.require :refer [require-python]]
-            [libpython-clj.python :as py]
+            [libpython-clj.python :refer [py. py.- py..] :as py]
             [clojure.tools.logging :as log]))
 
 (require-python '[distutils.core :refer [setup]])
@@ -21,7 +21,7 @@
   [img-path]
   (py/with-gil-stack-rc-context
     (if-let [cv-img (cv2/imread img-path)]
-      (when-let [detection (py/$a model detect cv-img 0.8)]
+      (when-let [detection (py. model detect cv-img 0.8)]
         (let [[faces landmarks] detection]
           (->> (mapv (fn [face landmark]
                        (let [face-bbox (->> (take 4 face)
@@ -61,9 +61,9 @@
   (try
     (let [landmark-ary (np/array landmarks :dtype np/float32)
           sim-trans (trans/SimilarityTransform)
-          success? (py/$a sim-trans estimate landmark-ary ideal-face-landmarks)]
+          success? (py. sim-trans estimate landmark-ary ideal-face-landmarks)]
       (when success?
-        (-> (py/$. sim-trans params)
+        (-> (py.- sim-trans params)
             (py/get-item [(slice 0 2) (slice nil)]))))
     (catch Throwable e
       (log/warnf e (format "Similarity transform failed for landmarks: %s"
